@@ -5,7 +5,13 @@ $(function(){
         iframe = $iframe[0],
         $window = $(window),
         $document = $(document),
-        origin = document.location.protocol + '//' + document.location.host;
+        origin = document.location.protocol + '//' + document.location.host,
+
+        api_headers = {};
+
+        if (sessionStorage['username'] && sessionStorage['password'])
+            api_headers['Authorization'] =
+                'Basic ' + base64.encode(sessionStorage['username'] + ':' + sessionStorage['password']);
 
 
     // Resize
@@ -100,6 +106,7 @@ $(function(){
         $.ajax({
             type: 'POST',
             url: 'https://api.github.com/markdown',
+            headers: api_headers,
             data: JSON.stringify({
                 text: text,
                 mode: 'markdown'
