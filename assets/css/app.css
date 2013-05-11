@@ -1,0 +1,63 @@
+* {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: "Liberation Mono";
+    src: url('../fonts/LiberationMono-Regular.ttf');
+}
+
+html, body {
+    margin:0;
+    height: 100%;
+}
+#input, #output {
+    float: left; /* Why U no work, inline-block??? */
+    width: 50%;
+    height: 100%;
+    border:0;
+    margin:0;
+    resize: none;
+    overflow-y: auto;
+}
+#input {
+    padding: 5px 0 5px 5px;
+    font-size: 10pt;
+    background: #EEE;
+    font-family: "Liberation Mono", "Lucida Console", "Lucida Sans Typewriter",
+                    Monaco, "Bitstream Vera Sans Mono", monospace;
+}
+#output {
+    padding-left: 3px;
+}
+#output iframe {
+    width:100%;
+    border: 0;
+}
+
+#resizer {
+    height: 100%;
+    width: 3px;
+    margin-right: -3px;
+    float: left;
+    border: 0;
+    background: #DDD;
+    cursor: ew-resize;
+    position: relative;
+}
+#resizer:after {
+    content: "-\a-\a-";
+    position: absolute;
+    top: 50%;
+    white-space: pre;
+    line-height: 3px;
+    color: #999;
+    font-size: 8pt;
+}
+#resize-overlay {
+    position: absolute;
+    height: 100%; width: 100%;
+    left: 0; top: 0;
+    cursor: ew-resize;
+}

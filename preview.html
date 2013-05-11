@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+        <link rel="stylesheet" href="https://github.com/assets/github.css">
+        <style>
+            html, body {
+                overflow: visible;
+                min-width: auto;
+                height: auto;
+            }
+            body {
+                padding: 5px 10px;
+            }
+        </style>
+        <script>
+            $(function(){
+                var origin = document.location.protocol + '//' + document.location.host;
+                function display(){
+                    // var newbody = $('<body>').html(sessionStorage['html']);
+                    // $('body').replaceWith(newbody);
+                    $('.markdown-body').html(sessionStorage['html']);
+                }
+                $(window).on('message', function(e){
+                    e = e.originalEvent; // jquery event is not helpful
+                    if (e.origin != origin)
+                        return;
+                    if (e.data == 'update'){
+                        display();
+                        e.source.postMessage('updated', origin);
+                    }
+                });
+
+                display();
+                parent.postMessage('updated', origin);
+            });
+        </script>
+    </head>
+    <body>
+        <div id="readme" class="clearfix announce instapaper_body md">
+            <article class="markdown-body entry-content" itemprop="mainContentOfPage"></article>
+        </div>
+    </body>
+</html>
