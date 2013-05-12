@@ -12,6 +12,13 @@ html, body {
     margin:0;
     height: 100%;
 }
+
+#wrapper {
+    height: 100%;
+    padding-top: 3em;
+    margin-top: -3em;
+}
+
 #input, #output {
     float: left; /* Why U no work, inline-block??? */
     width: 50%;
