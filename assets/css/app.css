@@ -23,6 +23,9 @@ html, body {
     vertical-align: middle;
     margin-right: .25em;
 }
+.icon-github:before {
+    content: "\f09b";
+}
 
 #wrapper {
     height: 100%;
