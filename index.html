@@ -2,6 +2,7 @@
 <html>
     <head>
         <script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 
         <script src="assets/js/util/cache.js"></script>
         <script src="assets/js/util/base64.js"></script>
@@ -16,6 +17,7 @@
         <div class="navbar navbar-inverse navbar-static-top">
             <div class="navbar-inner">
                 <a class="brand" href="#">GitHub Readme Preview</a>
+                <p id="ratelimit" class="navbar-text pull-left" title="GitHub API rate limiting">60 / 60</p>
                 <ul class="nav pull-right">
                     <li>
                         <a class="icon icon-github" href="https://github.com/eternicode/github-readme-preview">

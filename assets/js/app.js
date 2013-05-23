@@ -14,6 +14,19 @@ $(function(){
                 'Basic ' + base64.encode(sessionStorage['username'] + ':' + sessionStorage['password']);
 
 
+    var ratelimit = $('#ratelimit').tooltip({placement: 'bottom'});
+    $(document).on('ajaxSuccess', function(e, xhr, opts, data){
+        var limit = xhr.getResponseHeader('X-RateLimit-Limit'),
+            remaining = xhr.getResponseHeader('X-RateLimit-Remaining');
+        if (limit && remaining)
+            ratelimit.text(remaining + ' / ' + limit);
+    });
+    $.ajax({
+        url: 'https://api.github.com/rate_limit',
+        headers: api_headers
+    });
+
+
     // Resize
     function resize_callback(e){
         var width = $document.width(),
