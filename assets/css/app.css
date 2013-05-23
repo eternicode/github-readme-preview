@@ -7,10 +7,21 @@
     font-family: "Liberation Mono";
     src: url('../fonts/LiberationMono-Regular.ttf');
 }
+@font-face {
+    font-family: "FontAwesome";
+    src: url('../fonts/fontawesome-webfont.ttf');
+}
 
 html, body {
     margin:0;
     height: 100%;
+}
+
+.icon:before {
+    font-family: FontAwesome;
+    font-size: 1.5em;
+    vertical-align: middle;
+    margin-right: .25em;
 }
 
 #wrapper {
