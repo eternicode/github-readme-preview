@@ -16,12 +16,38 @@
 
         <link rel="stylesheet" href="assets/css/app.css">
     </head>
-    <body>
+    <body class="unauthenticated">
         <div class="navbar navbar-inverse navbar-static-top">
             <div class="navbar-inner">
                 <a class="brand" href="#">GitHub Readme Preview</a>
                 <p id="ratelimit" class="navbar-text pull-left" title="GitHub API rate limiting">60 / 60</p>
                 <ul class="nav pull-right">
+                    <li class="login dropdown">
+                        <a href="#" data-toggle="dropdown" class="icon icon-signin">Login with GitHub</a>
+                        <form class="dropdown-menu login-form">
+                            <div class="control-group">
+                                <label class="control-label" for="username">
+                                    Authentication
+                                </label>
+                                <div class="controls">
+                                    <input type="text" placeholder="GitHub Username">
+                                    <input type="password" placeholder="GitHub Password">
+                                    <p class="error"></p>
+                                    <button class="btn btn-block">Login</button>
+                                </div>
+                            </div>
+                            <div class="help-block">GitHub's API imposes a rate limit of 60 requests per hour for unauthenticated requests.  While this can work, it's much more comfortable to work with the 5,000 request per hour rate that authenticated requests get</div>
+                        </form>
+                    </li>
+                    <li class="profile dropdown">
+                        <a data-toggle="dropdown" href="#">
+                            <img height="20" width="20" src="">
+                        </a>
+                        <ul class="dropdown-menu user-menu">
+                            <li class="disabled"><a href="#" class="loggedin"></a></li>
+                            <li><a href="#" class="logout">Logout</a></li>
+                        </ul>
+                    </li>
                     <li>
                         <a class="icon icon-github" href="https://github.com/eternicode/github-readme-preview">
                             On Github

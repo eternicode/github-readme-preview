@@ -1,4 +1,6 @@
-var app = {};
+var app = {
+    user: null
+};
 $(function(){
     var ta = $('#input'),
         out = $('#output'),
@@ -8,11 +10,74 @@ $(function(){
         $document = $(document),
         origin = document.location.protocol + '//' + document.location.host,
 
-        api_headers = {};
+        auth = null;
 
-        if (sessionStorage['username'] && sessionStorage['password'])
-            api_headers['Authorization'] =
-                'Basic ' + base64.encode(sessionStorage['username'] + ':' + sessionStorage['password']);
+
+    // Authentication
+    function set_user(data){
+        app.user = data;
+        if (app.user){
+            sessionStorage['user'] = JSON.stringify(app.user);
+            $('body')
+                .removeClass('unauthenticated')
+                .addClass('authenticated');
+            $('.profile img').attr({src: app.user.avatar_url});
+            $('.user-menu .loggedin').text('Logged in as ' + app.user.login);
+        }
+        else{
+            delete sessionStorage['user'];
+            $('body')
+                .removeClass('authenticated')
+                .addClass('unauthenticated');
+            $('.profile img').attr({src: ''});
+            $('.user-menu .loggedin').text('');
+        }
+    }
+    function authenticate(username, password){
+        if (username && password){
+            sessionStorage['username'] = username;
+            sessionStorage['password'] = password;
+            auth = 'Basic ' + base64.encode(username + ':' + password);
+        }
+        else{
+            auth = null;
+            delete sessionStorage['username'];
+            delete sessionStorage['password'];
+        }
+        $.get('https://api.github.com/rate_limit');
+    }
+    $(document).ajaxSend(function(e, xhr, opts){
+        if (auth && opts.url.indexOf('api.github.com') !== -1)
+            xhr.setRequestHeader('Authorization', auth);
+    });
+    $('.login-form').submit(function(){
+        var form = this,
+            username = $('[type=text]', this).val(),
+            password = $('[type=password]', this).val();
+        authenticate(); // "logout"
+        $('p.error', form).empty();
+        $('.control-group', form).removeClass('error');
+        $.ajax({
+            url: 'https://api.github.com/user',
+            headers: {Authorization: 'Basic ' + base64.encode(username + ':' + password)},
+            success: function(data){
+                authenticate(username, password);
+                set_user(data);
+                form.reset();
+            },
+            error: function(xhr, status, e){
+                $('p.error', form).text(xhr.responseJSON.message);
+                $('.control-group', form).addClass('error');
+            }
+        });
+        return false;
+    });
+    $('.user-menu .logout').click(function(){
+        authenticate();
+        set_user(null);
+        return false;
+    });
+
 
 
     var ratelimit = $('#ratelimit').tooltip({placement: 'bottom'});
@@ -22,10 +87,16 @@ $(function(){
         if (limit && remaining)
             ratelimit.text(remaining + ' / ' + limit);
     });
-    $.ajax({
-        url: 'https://api.github.com/rate_limit',
-        headers: api_headers
-    });
+    $.get('https://api.github.com/rate_limit');
+
+    authenticate(sessionStorage['username'], sessionStorage['password']);
+    if ('user' in sessionStorage)
+        try{
+            set_user(JSON.parse(sessionStorage['user']));
+        }
+        catch(e){
+            set_user(null);
+        }
 
 
     // Resize
@@ -120,7 +191,6 @@ $(function(){
         $.ajax({
             type: 'POST',
             url: 'https://api.github.com/markdown',
-            headers: api_headers,
             data: JSON.stringify({
                 text: text,
                 mode: 'markdown'

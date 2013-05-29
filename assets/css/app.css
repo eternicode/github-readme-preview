@@ -2,6 +2,10 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+form * {
+    -moz-box-sizing: initial;
+    box-sizing: initial;
+}
 
 @font-face {
     font-family: "Liberation Mono";
@@ -25,6 +29,25 @@ html, body {
 }
 .icon-github:before {
     content: "\f09b";
+}
+.icon-signin:before {
+    content: "\f090";
+}
+
+.authenticated .login {display:none;}
+.unauthenticated .profile {display:none;}
+.login-form {
+    padding:20px;
+}
+.login-form form {
+    margin:0;
+}
+.login-form .help-block {
+    font-size:.8em;
+}
+.profile img {
+    width: 20px; height: 20px;
+    border-radius: 3px;
 }
 
 #wrapper {
