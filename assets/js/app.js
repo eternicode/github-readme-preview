@@ -1,3 +1,4 @@
+var app = {};
 $(function(){
     var ta = $('#input'),
         out = $('#output'),
@@ -139,15 +140,16 @@ $(function(){
         change: update
     });
 
-
     // Load last state
     if ('text' in sessionStorage){
         ta.val(sessionStorage['text']);
     }
     else
-        $.get('docs/intro.md', function(text){
-            // TODO: prevent this from needing to hit the markdown API
-            ta.val(text);
-            update();
-        });
+        router.goto('#intro');
+
+
+    app = {
+        textarea: ta,
+        update: update
+    };
 });
