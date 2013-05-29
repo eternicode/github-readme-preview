@@ -49,6 +49,22 @@ html, body {
     width: 20px; height: 20px;
     border-radius: 3px;
 }
+.icon-remove:before {
+    content: "\f00d";
+}
+.icon-download:before {
+    content: "\f01a";
+}
+.icon-upload:before {
+    content: "\f01b";
+}
+
+#import.inactive span {display:none;}
+#import.active input {display:none;}
+
+.navbar-text.pull-left {
+    margin-right: 20px;
+}
 
 #wrapper {
     height: 100%;

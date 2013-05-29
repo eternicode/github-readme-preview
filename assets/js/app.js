@@ -99,6 +99,39 @@ $(function(){
         }
 
 
+    var import_form = $('#import'),
+        import_field = import_form.find('input');
+    $.each([
+        ['input', 'Load a readme from a repository.  Branch optional.'],
+        ['.icon-download', 'Editing readme from %s'],
+        ['.icon-upload', 'Commit readme to %s'],
+        ['.icon-remove', 'Cancel edits']
+    ], function(){
+        var tooltip = this[1];
+        import_form.find(this[0]).hover(function(){
+            import_form.tooltip({
+                placement: 'bottom',
+                title: tooltip.replace(/%s/g, import_form.attr('data-repo'))
+            }).tooltip('toggle');
+        }, function(){
+            import_form.tooltip('destroy');
+        });
+    });
+    import_form
+        .on('submit', function(){
+            router.goto('#repo:' + import_field.val(), true);
+            return false;
+        })
+        .on('click', '.icon-remove', function(){
+            ta.val('');
+            update();
+            import_form
+                .toggleClass('inactive active')
+                .attr('data-repo', '');
+            router.back();
+        });
+
+
     // Resize
     function resize_callback(e){
         var width = $document.width(),
